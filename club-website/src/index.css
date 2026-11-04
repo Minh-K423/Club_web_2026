@@ -1,0 +1,107 @@
+@import "tailwindcss";
+
+@theme {
+  /* Main brand colors: teal, black, white */
+  --color-teal: #0d9488;
+  --color-teal-light: #14b8a6;
+  --color-teal-dark: #0f766e;
+  --color-ink: #0a0a0a;
+
+  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: #ffffff;
+  color: #0a0a0a;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Styling for the Markdown body of a paper reading page */
+.paper-body {
+  line-height: 1.75;
+  color: #1f2937;
+
+  h2 {
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    font-size: 1.375rem;
+    font-weight: 700;
+    color: #0a0a0a;
+  }
+
+  h3 {
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #0a0a0a;
+  }
+
+  p {
+    margin-bottom: 1rem;
+  }
+
+  ul,
+  ol {
+    margin: 0 0 1rem 1.5rem;
+    list-style: revert;
+  }
+
+  li {
+    margin-bottom: 0.375rem;
+  }
+
+  a {
+    color: var(--color-teal);
+    text-decoration: underline;
+  }
+
+  blockquote {
+    margin: 0 0 1rem;
+    padding: 0.5rem 0 0.5rem 1rem;
+    border-left: 4px solid var(--color-teal);
+    color: #4b5563;
+    font-style: italic;
+  }
+
+  table {
+    width: 100%;
+    margin-bottom: 1.5rem;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+  }
+
+  th,
+  td {
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #e5e7eb;
+    text-align: left;
+  }
+
+  th {
+    background: #f3f4f6;
+    font-weight: 600;
+  }
+
+  code {
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: #f3f4f6;
+    font-family: ui-monospace, Consolas, monospace;
+    font-size: 0.875em;
+  }
+
+  /* Displayed maths should scroll rather than overflow on small screens */
+  .katex-display {
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 0.5rem 0;
+  }
+}
