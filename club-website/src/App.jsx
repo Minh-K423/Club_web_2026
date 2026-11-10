@@ -1,15 +1,15 @@
 import { lazy, Suspense, useEffect } from 'react'
-import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
-import Navbar from './components/Navbar'
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import Footer from './components/Footer'
-import Home from './sections/Home'
-import Research from './sections/Research'
-import About from './sections/About'
-import Competitions from './sections/Competitions'
+import Navbar from './components/Navbar'
+import { paperRoute, siteLinks } from './navigation'
+import About from './pages/About'
+import Competitions from './pages/Competitions'
+import Home from './pages/Home'
+import Research from './pages/Research'
 
-// The reading page pulls in the Markdown parser and KaTeX, so it is loaded
-// on demand rather than bundled into every page.
-const PaperDetail = lazy(() => import('./sections/PaperDetail'))
+// Load the Markdown parser and KaTeX when a visitor opens a paper.
+const PaperDetail = lazy(() => import('./pages/PaperDetail'))
 
 // Start at the top whenever the address changes (including ?page= changes)
 function ScrollToTop() {
@@ -34,12 +34,12 @@ export default function App() {
           }
         >
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/research" element={<Research />} />
-            <Route path="/research/:slug" element={<PaperDetail />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/competitions" element={<Competitions />} />
-            <Route path="*" element={<Navigate to="/" replace />} />
+            <Route path={siteLinks.home.to} element={<Home />} />
+            <Route path={siteLinks.research.to} element={<Research />} />
+            <Route path={paperRoute} element={<PaperDetail />} />
+            <Route path={siteLinks.about.to} element={<About />} />
+            <Route path={siteLinks.competitions.to} element={<Competitions />} />
+            <Route path="*" element={<Navigate to={siteLinks.home.to} replace />} />
           </Routes>
         </Suspense>
       </main>

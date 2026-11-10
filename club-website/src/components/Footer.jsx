@@ -1,25 +1,20 @@
 import { Link } from 'react-router-dom'
-
-const exploreLinks = [
-  { to: '/research', label: 'Researching paper / Science paper' },
-  { to: '/about', label: 'About us' },
-  { to: '/competitions', label: 'Competitions' },
-]
+import { club } from '../data/club'
+import { exploreLinks, siteLinks } from '../navigation'
 
 export default function Footer() {
   return (
     <footer className="border-t-4 border-teal bg-black text-white">
       <div className="mx-auto grid max-w-6xl gap-10 px-4 py-12 md:grid-cols-3">
         <div>
-          <Link to="/about" className="flex items-center gap-3">
+          <Link to={siteLinks.about.to} className="flex items-center gap-3">
             <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-teal text-lg font-bold text-white">
-              C
+              {club.mark}
             </span>
-            <span className="text-lg font-semibold">Club Name</span>
+            <span className="text-lg font-semibold">{club.name}</span>
           </Link>
           <p className="mt-4 text-sm text-gray-400">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Placeholder
-            text — replace with your club description.
+            {club.description}
           </p>
         </div>
 
@@ -46,15 +41,15 @@ export default function Footer() {
             Contact
           </h3>
           <ul className="mt-4 space-y-2 text-sm text-gray-300">
-            <li>Email: placeholder@club.com</li>
-            <li>Location: Placeholder Hall, Room 101</li>
-            <li>Meeting: Fridays, 17:00</li>
+            <li>{`Email: ${club.contact.email}`}</li>
+            <li>{`Location: ${club.contact.location}`}</li>
+            <li>{`Meeting: ${club.contact.meeting}`}</li>
           </ul>
         </div>
       </div>
 
       <div className="border-t border-white/10 py-4 text-center text-xs text-gray-500">
-        © {new Date().getFullYear()} Club Name. All rights reserved. — Placeholder footer
+        © {new Date().getFullYear()}{` ${club.name}. All rights reserved. — Placeholder footer`}
       </div>
     </footer>
   )

@@ -1,21 +1,16 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
-
-const links = [
-  { to: '/', label: 'Home' },
-  { to: '/research', label: 'Researching paper / Science paper' },
-  { to: '/about', label: 'About us' },
-  { to: '/competitions', label: 'Competitions' },
-]
+import { club } from '../data/club'
+import { menuLinks, siteLinks } from '../navigation'
 
 export default function Navbar() {
   const [open, setOpen] = useState(false)
-  const ref = useRef(null)
+  const menuRef = useRef(null)
 
   // Close the dropdown on outside click or Escape key
   useEffect(() => {
     function onClickOutside(e) {
-      if (ref.current && !ref.current.contains(e.target)) setOpen(false)
+      if (menuRef.current && !menuRef.current.contains(e.target)) setOpen(false)
     }
     function onEscape(e) {
       if (e.key === 'Escape') setOpen(false)
@@ -31,20 +26,19 @@ export default function Navbar() {
   return (
     <header className="sticky top-0 z-50 bg-black text-white shadow-lg">
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
-        {/* Logo placeholder — goes to the About us page */}
         <Link
-          to="/"
+          to={siteLinks.home.to}
           className="flex items-center gap-3"
-          aria-label="Club Name — go to Home"
+          aria-label={`${club.name} — go to Home`}
         >
           <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-teal text-lg font-bold text-white">
-            C
+            {club.mark}
           </span>
-          <span className="text-lg font-semibold tracking-wide">Club Name</span>
+          <span className="text-lg font-semibold tracking-wide">{club.name}</span>
         </Link>
 
         {/* Dropdown menu */}
-        <div className="relative" ref={ref}>
+        <div className="relative" ref={menuRef}>
           <button
             type="button"
             onClick={() => setOpen((o) => !o)}
@@ -80,11 +74,11 @@ export default function Navbar() {
 
           {open && (
             <ul className="absolute right-0 mt-2 w-80 overflow-hidden rounded-xl border border-gray-100 bg-white text-ink shadow-2xl">
-              {links.map((link) => (
+              {menuLinks.map((link) => (
                 <li key={link.to}>
                   <NavLink
                     to={link.to}
-                    end={link.to === '/'}
+                    end={link.to === siteLinks.home.to}
                     onClick={() => setOpen(false)}
                     className={({ isActive }) =>
                       `flex w-full items-center justify-between gap-2 border-l-4 px-4 py-3 text-left text-sm transition ${

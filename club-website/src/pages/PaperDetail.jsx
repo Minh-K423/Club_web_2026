@@ -1,11 +1,8 @@
 import { Link, useParams } from 'react-router-dom'
-import ReactMarkdown from 'react-markdown'
-import remarkMath from 'remark-math'
-import rehypeKatex from 'rehype-katex'
-import { getPaperBySlug, getAdjacentPapers } from '../data/papers'
-
-// Imported here so the KaTeX styles load only with this route's chunk
-import 'katex/dist/katex.min.css'
+import PaperBody from '../features/research/PaperBody'
+import PaperNavigation from '../features/research/PaperNavigation'
+import { getAdjacentPapers, getPaperBySlug } from '../features/research/papers'
+import { siteLinks } from '../navigation'
 
 export default function PaperDetail() {
   const { slug } = useParams()
@@ -20,7 +17,7 @@ export default function PaperDetail() {
           Lorem ipsum dolor sit amet — this paper does not exist (placeholder).
         </p>
         <Link
-          to="/research"
+          to={siteLinks.research.to}
           className="mt-8 inline-block rounded-lg bg-teal px-6 py-3 font-semibold text-white transition hover:bg-teal-dark"
         >
           ← Back to all papers
@@ -36,13 +33,13 @@ export default function PaperDetail() {
       {/* Breadcrumb */}
       <div className="border-b border-gray-100 bg-gray-50">
         <div className="mx-auto max-w-3xl px-4 py-4 text-sm text-gray-500">
-          <Link to="/" className="transition hover:text-teal">
+          <Link to={siteLinks.home.to} className="transition hover:text-teal">
             Home
           </Link>
           <span className="mx-2" aria-hidden="true">
             /
           </span>
-          <Link to="/research" className="transition hover:text-teal">
+          <Link to={siteLinks.research.to} className="transition hover:text-teal">
             Research
           </Link>
           <span className="mx-2" aria-hidden="true">
@@ -82,11 +79,7 @@ export default function PaperDetail() {
           <p className="mt-3 leading-relaxed text-gray-700">{paper.abstract}</p>
         </section>
 
-        <div className="paper-body mt-10">
-          <ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex]}>
-            {paper.body}
-          </ReactMarkdown>
-        </div>
+        <PaperBody markdown={paper.body} />
 
         <div className="mt-12 flex flex-wrap gap-4">
           <button className="rounded-lg bg-teal px-5 py-2 text-sm font-semibold text-white transition hover:bg-teal-dark">
@@ -97,42 +90,11 @@ export default function PaperDetail() {
           </button>
         </div>
 
-        {/* Previous / next paper */}
-        <nav className="mt-14 grid gap-4 border-t border-gray-200 pt-8 sm:grid-cols-2">
-          {previous ? (
-            <Link
-              to={`/research/${previous.slug}`}
-              className="group rounded-xl border border-gray-200 p-4 transition hover:border-teal"
-            >
-              <span className="text-xs uppercase tracking-widest text-gray-400">
-                ← Previous
-              </span>
-              <span className="mt-1 block font-medium transition group-hover:text-teal">
-                {previous.title}
-              </span>
-            </Link>
-          ) : (
-            <span />
-          )}
-
-          {next && (
-            <Link
-              to={`/research/${next.slug}`}
-              className="group rounded-xl border border-gray-200 p-4 text-right transition hover:border-teal"
-            >
-              <span className="text-xs uppercase tracking-widest text-gray-400">
-                Next →
-              </span>
-              <span className="mt-1 block font-medium transition group-hover:text-teal">
-                {next.title}
-              </span>
-            </Link>
-          )}
-        </nav>
+        <PaperNavigation previous={previous} next={next} />
 
         <div className="mt-10 text-center">
           <Link
-            to="/research"
+            to={siteLinks.research.to}
             className="inline-block rounded-lg border border-gray-300 px-6 py-3 text-sm font-semibold text-gray-700 transition hover:border-teal hover:text-teal"
           >
             ← Back to all papers

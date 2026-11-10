@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom'
+import { club } from '../data/club'
+import { siteLinks } from '../navigation'
 
 const cards = [
   {
-    to: '/research',
-    title: 'Researching paper / Science paper',
+    ...siteLinks.research,
     desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Placeholder description for the research section.',
     icon: (
       <path
@@ -14,8 +15,7 @@ const cards = [
     ),
   },
   {
-    to: '/about',
-    title: 'About us',
+    ...siteLinks.about,
     desc: 'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Placeholder description for the about section.',
     icon: (
       <path
@@ -26,8 +26,7 @@ const cards = [
     ),
   },
   {
-    to: '/competitions',
-    title: 'Competitions',
+    ...siteLinks.competitions,
     desc: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco. Placeholder description for the competitions section.',
     icon: (
       <path
@@ -49,7 +48,7 @@ export default function Home() {
             Placeholder badge
           </span>
           <h1 className="text-4xl font-bold leading-tight md:text-6xl">
-            Welcome to <span className="text-teal-light">Club Name</span>
+            Welcome to <span className="text-teal-light">{club.name}</span>
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-gray-300">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
@@ -58,13 +57,13 @@ export default function Home() {
           </p>
           <div className="mt-10 flex flex-wrap justify-center gap-4">
             <Link
-              to="/research"
+              to={siteLinks.research.to}
               className="rounded-lg bg-teal px-6 py-3 font-semibold text-white transition hover:bg-teal-dark"
             >
               Explore research
             </Link>
             <Link
-              to="/about"
+              to={siteLinks.about.to}
               className="rounded-lg border border-white/30 px-6 py-3 font-semibold transition hover:border-teal hover:text-teal-light"
             >
               About us
@@ -99,7 +98,7 @@ export default function Home() {
                   {card.icon}
                 </svg>
               </span>
-              <h3 className="mt-4 text-lg font-semibold">{card.title}</h3>
+              <h3 className="mt-4 text-lg font-semibold">{card.label}</h3>
               <p className="mt-2 text-sm text-gray-600">{card.desc}</p>
               <span className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-teal">
                 Learn more

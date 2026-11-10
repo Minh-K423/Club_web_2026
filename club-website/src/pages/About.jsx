@@ -1,32 +1,19 @@
-const stats = [
-  { value: '2020', label: 'Founded (placeholder)' },
-  { value: '120+', label: 'Members (placeholder)' },
-  { value: '30+', label: 'Papers (placeholder)' },
-  { value: '15', label: 'Competitions (placeholder)' },
-]
-
-const team = [
-  { initials: 'JD', name: 'Jane Doe', role: 'President (placeholder)' },
-  { initials: 'JS', name: 'John Smith', role: 'Vice President (placeholder)' },
-  { initials: 'AK', name: 'Alice Kim', role: 'Secretary (placeholder)' },
-  { initials: 'MB', name: 'Max Brown', role: 'Treasurer (placeholder)' },
-]
+import PageHeader from '../components/PageHeader'
+import { stats, team } from '../data/about'
 
 export default function About() {
   return (
     <>
-      {/* Page header */}
-      <section className="border-b-4 border-teal bg-black text-white">
-        <div className="mx-auto max-w-6xl px-4 py-16">
-          <h1 className="text-3xl font-bold md:text-5xl">
+      <PageHeader
+        title={
+          <>
             About <span className="text-teal-light">us</span>
-          </h1>
-          <p className="mt-4 max-w-2xl text-gray-300">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Placeholder
-            introduction for the about section — tell your club's story here.
-          </p>
-        </div>
-      </section>
+          </>
+        }
+      >
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Placeholder
+        introduction for the about section — tell your club's story here.
+      </PageHeader>
 
       {/* Mission & vision */}
       <section className="mx-auto max-w-6xl px-4 py-12">

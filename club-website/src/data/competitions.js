@@ -1,0 +1,42 @@
+export const competitions = [
+  {
+    name: 'Annual Science Fair 2026',
+    status: 'Upcoming',
+    date: 'March 15, 2026 (placeholder)',
+    location: 'Main Auditorium (placeholder)',
+    prize: 'Prize pool: $1,000 (placeholder)',
+    desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Open to all members — placeholder description of the competition.',
+  },
+  {
+    name: 'Hackathon: Code for Good',
+    status: 'Upcoming',
+    date: 'April 22–23, 2026 (placeholder)',
+    location: 'Innovation Lab (placeholder)',
+    prize: 'Prize pool: $2,500 (placeholder)',
+    desc: 'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 48-hour hackathon — placeholder description.',
+  },
+  {
+    name: 'Regional Math Olympiad',
+    status: 'Upcoming',
+    date: 'May 10, 2026 (placeholder)',
+    location: 'Science Building (placeholder)',
+    prize: 'Medals & certificates (placeholder)',
+    desc: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris. Individual and team rounds — placeholder description.',
+  },
+  {
+    name: 'National Robotics Challenge 2025',
+    status: 'Past',
+    date: 'November 8, 2025 (placeholder)',
+    location: 'Convention Center (placeholder)',
+    prize: '2nd place (placeholder)',
+    desc: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore. Our club placed second — placeholder description.',
+  },
+  {
+    name: 'Inter-University Debate Cup',
+    status: 'Past',
+    date: 'October 12, 2025 (placeholder)',
+    location: 'Lecture Hall B (placeholder)',
+    prize: 'Best speaker award (placeholder)',
+    desc: 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim — placeholder description.',
+  },
+]
