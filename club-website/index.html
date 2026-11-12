@@ -5,9 +5,182 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Club Name — Placeholder</title>
+    <style>
+      html:has(#welcome-curtain) { overflow: hidden; }
+
+      #welcome-curtain {
+        position: fixed;
+        inset: 0;
+        z-index: 1000;
+        display: grid;
+        place-items: center;
+        overflow: auto;
+        padding: 1.5rem;
+        background: #0a0a0a;
+        color: #fff;
+        font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+        text-align: center;
+      }
+
+      #welcome-curtain .welcome-panel {
+        width: min(100%, 42rem);
+      }
+
+      #welcome-curtain .welcome-panel::before {
+        content: "";
+        display: block;
+        width: 3rem;
+        height: 0.25rem;
+        margin: 0 auto 1.5rem;
+        border-radius: 1rem;
+        background: #14b8a6;
+      }
+
+      #welcome-greeting, #welcome-error {
+        margin: 0;
+        font-size: clamp(1.75rem, 6vw, 3.5rem);
+        font-weight: 700;
+        line-height: 1.12;
+        text-wrap: balance;
+      }
+
+      #welcome-status { margin: 0; }
+
+      #welcome-status:not(:empty) {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.6rem;
+        margin-top: 1.25rem;
+        color: #e5e7eb;
+      }
+
+      #welcome-status:not(:empty)::before {
+        content: "";
+        box-sizing: border-box;
+        width: 1em;
+        height: 1em;
+        border: 2px solid #115e59;
+        border-top-color: #14b8a6;
+        border-radius: 50%;
+        animation: welcome-spin 0.8s linear infinite;
+      }
+
+      @keyframes welcome-spin { to { transform: rotate(1turn); } }
+
+      #welcome-retry {
+        margin-top: 1.5rem;
+        padding: 0.6rem 1.2rem;
+        border: 0;
+        border-radius: 0.5rem;
+        background: #14b8a6;
+        color: #0a0a0a;
+        font: inherit;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      #welcome-retry:focus-visible { outline: 2px solid white; outline-offset: 4px; }
+
+      @media (prefers-reduced-motion: reduce) {
+        #welcome-status:not(:empty)::before { animation: none; }
+      }
+    </style>
   </head>
   <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
+    <div id="welcome-curtain">
+      <div class="welcome-panel">
+        <h1 id="welcome-greeting"></h1>
+        <p id="welcome-status" role="status"></p>
+        <p id="welcome-error" role="alert"></p>
+        <button id="welcome-retry" type="button" hidden>Try again</button>
+      </div>
+    </div>
+    <div id="root" inert></div>
+    <script>
+      (() => {
+        const curtain = document.getElementById('welcome-curtain')
+        const greeting = document.getElementById('welcome-greeting')
+        const status = document.getElementById('welcome-status')
+        const error = document.getElementById('welcome-error')
+        const retry = document.getElementById('welcome-retry')
+        const root = document.getElementById('root')
+        const startup = new AbortController()
+        const { signal } = startup
+        const hour = new Date().getHours()
+
+        greeting.textContent =
+          hour < 5 || hour >= 23 ? 'A bit late to be browsing? You’re in good company.'
+          : hour < 12 ? 'Good morning! Welcome to the club.'
+          : hour < 18 ? 'Good afternoon! Glad you’re here.'
+          : 'Good evening! Welcome to the club.'
+
+        let ready = false
+        let minimumElapsed = false
+        let greetingTimer
+        let deadlineTimer
+
+        function settle() {
+          startup.abort()
+          clearTimeout(greetingTimer)
+          clearTimeout(deadlineTimer)
+        }
+
+        function reveal() {
+          settle()
+
+          function finish() {
+            curtain.remove()
+            root.inert = false
+          }
+
+          if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            finish()
+          } else {
+            curtain.animate(
+              [{ transform: 'translateY(0)' }, { transform: 'translateY(-100%)' }],
+              { duration: 450, easing: 'cubic-bezier(0.4, 0, 0.2, 1)', fill: 'forwards' },
+            ).finished.then(finish, finish)
+          }
+        }
+
+        function fail() {
+          settle()
+          greeting.hidden = true
+          status.textContent = ''
+          error.textContent = 'Could not load the page'
+          retry.hidden = false
+          retry.focus()
+        }
+
+        retry.addEventListener('click', () => window.location.reload())
+        window.addEventListener('club:route-ready', () => {
+          ready = true
+          if (minimumElapsed) reveal()
+        }, { once: true, signal })
+        window.addEventListener('club:startup-failed', fail, { signal })
+        // Also handle a failed fetch of the module that imports the app.
+        window.addEventListener('error', (event) => {
+          if (event.target instanceof HTMLScriptElement && event.target.type === 'module') fail()
+        }, { capture: true, signal })
+
+        // Start both clocks at the first frame that can display the greeting.
+        requestAnimationFrame(() => {
+          if (signal.aborted) return
+          greetingTimer = setTimeout(() => {
+            minimumElapsed = true
+            if (ready) reveal()
+            else status.textContent = 'Loading…'
+          }, 1500)
+          deadlineTimer = setTimeout(fail, 12000)
+        })
+      })()
+    </script>
+    <script type="module">
+      // Keep Vite's app styles out of the HTML's render-blocking path too.
+      import('/src/main.jsx').catch(() => {
+        window.dispatchEvent(new Event('club:startup-failed'))
+      })
+    </script>
   </body>
 </html>

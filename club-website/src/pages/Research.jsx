@@ -2,7 +2,13 @@ import { useSearchParams } from 'react-router-dom'
 import PageHeader from '../components/PageHeader'
 import Pagination from '../components/Pagination'
 import PaperCard from '../features/research/PaperCard'
-import { getPapersForPage, pageCount, papers, PAPERS_PER_PAGE } from '../features/research/papers'
+import {
+  getPapersForPage,
+  NO_PAPER_MESSAGE,
+  pageCount,
+  papers,
+  PAPERS_PER_PAGE,
+} from '../features/research/papers'
 
 export default function Research() {
   const [searchParams, setSearchParams] = useSearchParams()
@@ -39,21 +45,27 @@ export default function Research() {
       </PageHeader>
 
       <section className="mx-auto max-w-6xl px-4 py-12 pb-16">
-        <div className="flex flex-wrap items-baseline justify-between gap-2">
-          <h2 className="text-2xl font-bold">All papers (placeholder)</h2>
-          <p className="text-sm text-gray-500">
-            Showing {firstResult}–{Math.min(lastResult, papers.length)} of{' '}
-            {papers.length} papers · page {page} of {pageCount}
-          </p>
-        </div>
+        {papers.length === 0 ? (
+          <h2 className="text-center text-2xl font-bold">{NO_PAPER_MESSAGE}</h2>
+        ) : (
+          <>
+            <div className="flex flex-wrap items-baseline justify-between gap-2">
+              <h2 className="text-2xl font-bold">All papers (placeholder)</h2>
+              <p className="text-sm text-gray-500">
+                Showing {firstResult}–{Math.min(lastResult, papers.length)} of{' '}
+                {papers.length} papers · page {page} of {pageCount}
+              </p>
+            </div>
 
-        <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {visiblePapers.map((paper) => (
-            <PaperCard key={paper.slug} paper={paper} />
-          ))}
-        </div>
+            <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              {visiblePapers.map((paper) => (
+                <PaperCard key={paper.slug} paper={paper} />
+              ))}
+            </div>
 
-        <Pagination page={page} pageCount={pageCount} onPageChange={goToPage} />
+            <Pagination page={page} pageCount={pageCount} onPageChange={goToPage} />
+          </>
+        )}
       </section>
     </>
   )

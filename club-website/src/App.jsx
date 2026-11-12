@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect } from 'react'
-import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
+import { Navigate, Outlet, Route, Routes, useLocation } from 'react-router-dom'
 import Footer from './components/Footer'
 import Navbar from './components/Navbar'
 import { paperRoute, siteLinks } from './navigation'
@@ -20,6 +20,14 @@ function ScrollToTop() {
   return null
 }
 
+function ReadyRoute() {
+  // This effect commits with the requested page, after any suspended paper has loaded.
+  useEffect(() => {
+    window.dispatchEvent(new Event('club:route-ready'))
+  }, [])
+  return <Outlet />
+}
+
 export default function App() {
   return (
     <div className="flex min-h-screen flex-col bg-white text-ink">
@@ -34,11 +42,13 @@ export default function App() {
           }
         >
           <Routes>
-            <Route path={siteLinks.home.to} element={<Home />} />
-            <Route path={siteLinks.research.to} element={<Research />} />
-            <Route path={paperRoute} element={<PaperDetail />} />
-            <Route path={siteLinks.about.to} element={<About />} />
-            <Route path={siteLinks.competitions.to} element={<Competitions />} />
+            <Route element={<ReadyRoute />}>
+              <Route path={siteLinks.home.to} element={<Home />} />
+              <Route path={siteLinks.research.to} element={<Research />} />
+              <Route path={paperRoute} element={<PaperDetail />} />
+              <Route path={siteLinks.about.to} element={<About />} />
+              <Route path={siteLinks.competitions.to} element={<Competitions />} />
+            </Route>
             <Route path="*" element={<Navigate to={siteLinks.home.to} replace />} />
           </Routes>
         </Suspense>

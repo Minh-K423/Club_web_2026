@@ -49,11 +49,17 @@ export default function Competitions() {
       {/* Competition list */}
       <section className="mx-auto max-w-6xl px-4 py-12 pb-16">
         <h2 className="text-2xl font-bold">Events (placeholder)</h2>
-        <div className="mt-8 space-y-6">
-          {competitions.map((competition) => (
-            <CompetitionCard key={competition.name} competition={competition} />
-          ))}
-        </div>
+        {competitions.length === 0 ? (
+          <p lang="vi" className="mt-8 text-center text-gray-600">
+            Hiện tại không có cuộc thi nào
+          </p>
+        ) : (
+          <div className="mt-8 space-y-6">
+            {competitions.map((competition) => (
+              <CompetitionCard key={competition.name} competition={competition} />
+            ))}
+          </div>
+        )}
 
         {/* CTA */}
         <div className="mt-12 rounded-2xl bg-black p-8 text-center text-white">

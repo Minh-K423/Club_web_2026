@@ -1,26 +1,22 @@
 import { Link, useParams } from 'react-router-dom'
 import PaperBody from '../features/research/PaperBody'
 import PaperNavigation from '../features/research/PaperNavigation'
-import { getAdjacentPapers, getPaperBySlug } from '../features/research/papers'
+import { getAdjacentPapers, getPaperBySlug, NO_PAPER_MESSAGE } from '../features/research/papers'
 import { siteLinks } from '../navigation'
 
 export default function PaperDetail() {
   const { slug } = useParams()
   const paper = getPaperBySlug(slug)
 
-  // Unknown slug — show a friendly page instead of a blank screen
   if (!paper) {
     return (
       <section className="mx-auto max-w-6xl px-4 py-24 text-center">
-        <h1 className="text-3xl font-bold md:text-4xl">Paper not found</h1>
-        <p className="mt-4 text-gray-600">
-          Lorem ipsum dolor sit amet — this paper does not exist (placeholder).
-        </p>
+        <h1 className="text-3xl font-bold md:text-4xl">{NO_PAPER_MESSAGE}</h1>
         <Link
           to={siteLinks.research.to}
           className="mt-8 inline-block rounded-lg bg-teal px-6 py-3 font-semibold text-white transition hover:bg-teal-dark"
         >
-          ← Back to all papers
+          ← Back to Research
         </Link>
       </section>
     )

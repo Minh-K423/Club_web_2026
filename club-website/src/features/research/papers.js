@@ -1,16 +1,16 @@
 import { slugify } from '../../utils/slug'
 import { paperRecords } from './paperRecords'
-import { buildSamplePaperBody } from './samplePaperBody'
 
 /** Papers shown per page — a 4-column x 3-row grid. */
 export const PAPERS_PER_PAGE = 12
 
-/** Catalog entries with URL slugs and Markdown bodies. */
+export const NO_PAPER_MESSAGE = 'Error 467: No paper here'
+
+/** Catalog entries with generated IDs and URL slugs. */
 export const papers = paperRecords.map((paper, i) => ({
   ...paper,
   id: i + 1,
   slug: slugify(paper.title),
-  body: buildSamplePaperBody(paper.title),
 }))
 
 export const pageCount = Math.max(1, Math.ceil(papers.length / PAPERS_PER_PAGE))
