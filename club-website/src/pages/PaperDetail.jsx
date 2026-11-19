@@ -48,21 +48,25 @@ export default function PaperDetail() {
       {/* Title block */}
       <header className="border-b-4 border-teal bg-black text-white">
         <div className="mx-auto max-w-3xl px-4 py-14">
-          <div className="flex flex-wrap items-center gap-2 text-xs">
-            <span className="rounded-full bg-teal px-2 py-1 font-semibold text-white">
-              {paper.year}
-            </span>
-            {paper.featured && (
-              <span className="rounded-full border border-teal px-2 py-1 font-semibold text-teal-light">
-                Featured
-              </span>
-            )}
-          </div>
+          {(paper.year || paper.featured) && (
+            <div className="flex flex-wrap items-center gap-2 text-xs">
+              {paper.year && (
+                <span className="rounded-full bg-teal px-2 py-1 font-semibold text-white">
+                  {paper.year}
+                </span>
+              )}
+              {paper.featured && (
+                <span className="rounded-full border border-teal px-2 py-1 font-semibold text-teal-light">
+                  Featured
+                </span>
+              )}
+            </div>
+          )}
           <h1 className="mt-4 text-3xl font-bold leading-tight md:text-4xl">
             {paper.title}
           </h1>
-          <p className="mt-4 text-gray-300">{paper.authors}</p>
-          <p className="mt-1 text-sm text-gray-400">{paper.journal}</p>
+          {paper.authors && <p className="mt-4 text-gray-300">{paper.authors}</p>}
+          {paper.journal && <p className="mt-1 text-sm text-gray-400">{paper.journal}</p>}
         </div>
       </header>
 
